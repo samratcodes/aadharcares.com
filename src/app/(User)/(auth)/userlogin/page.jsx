@@ -1,15 +1,18 @@
 'use client';
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
+
 
 const Login = () => {
   const router = useRouter();
   const [error, setError] = useState('');
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
   const [signingIn, setSigningIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -20,23 +23,36 @@ const Login = () => {
   const handleSignIn = async (values) => {
     setSigningIn(true);
     setError('');
-
-    // Mock auth logic
+  
     try {
-      // Simulate API delay
-      await new Promise((res) => setTimeout(res, 1000));
-      if (values.email === 'test@example.com' && values.password === 'Password@123') {
-        router.push('/dashboard');
+      const response = await fetch(`${API_URL}auth/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+      });
+  
+      const data = await response.json();
+  console.log(data)
+      if (response.ok) {
+        console.log(data)
+        Cookies.set('accessToken', data.accessToken, { expires: 7 });
+        // router.push('/dashboard');
       } else {
-        setError('Invalid credentials');
+        setError(data.message || 'Invalid credentials.');
       }
     } catch (err) {
-      setError('Something went wrong.');
+      console.error(err);
+      setError('Something went wrong. Please try again.');
     } finally {
       setSigningIn(false);
     }
   };
-
+  
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email is required'),
     password: Yup.string()
@@ -49,13 +65,13 @@ const Login = () => {
   });
 
   return (
-    <div className="flex items-center justify-center w-full bg-white h-screen">
+    <div className="flex items-center justify-center w-full bg-gray-50 h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-screen-xl h-full">
         
         {/* Left: Login Form */}
-        <div className="flex flex-col justify-center px-6 md:px-10 py-8 space-y-6">
+        <div className="flex flex-col justify-center px-6 md:px-10 pb-8 space-y-6">
           <div className="space-y-8">
-            <h1 className="text-LoginCustom font-bold text-center md:text-left text-[30px] md:text-[35px] lg:text-[38px] mb-3">
+            <h1 className="text-LoginCustom font-bold text-green-600 text-center md:text-left text-[30px] md:text-[35px] lg:text-[38px] mb-3">
               Welcome Back!
             </h1>
 
@@ -101,7 +117,7 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={togglePasswordVisibility}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+                      className="absolute right-4 top-1/2 transform  text-gray-500"
                     >
                       {showPassword ? <AiFillEye size={24} /> : <AiFillEyeInvisible size={24} />}
                     </button>
@@ -110,20 +126,22 @@ const Login = () => {
 
                   {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                  <div className="text-slate-700 mt-2 cursor-pointer text-base font-normal">
+                  <div className="text-blue-800  cursor-pointer text-base font-normal">
                     Forget Password?
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full px-4 py-2 font-semibold text-white text-lg bg-LoginCustom rounded-md"
+                    className="w-full px-4 py-2 font-semibold text-white text-lg bg-green-600 rounded-md"
                   >
                     {signingIn ? (
                       <div className="flex justify-center items-center w-full">
                         <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
                       </div>
                     ) : (
-                      'Login'
+                      <div>
+                        Login
+                      </div>
                     )}
                   </button>
                 </Form>
@@ -133,7 +151,7 @@ const Login = () => {
             <div className="text-center">
               <span className="text-base font-normal">
                 Don’t Have An Account?{' '}
-                <Link href="/signup" className="text-LoginCustom">
+                <Link href="/usersignup" className="text-blue-800">
                   Create Account
                 </Link>
               </span>
@@ -141,59 +159,17 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Right: Image Grid */}
-        <div className="hidden md:grid grid-cols-2 gap-4 p-6 h-full">
-          <div className="flex flex-col gap-4 h-full">
-            <Image
-              src="https://images.pexels.com/photos/29663700/pexels-photo-29663700/free-photo-of-butterfly-on-pink-zinnia-in-sunlit-garden.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt="Image 1"
-              width={500}
-              height={500}
-              className="h-1/2 w-full object-cover rounded-3xl"
-            />
-            <div className="flex gap-4 h-1/2">
-              <Image
-                src="https://images.pexels.com/photos/29663700/pexels-photo-29663700/free-photo-of-butterfly-on-pink-zinnia-in-sunlit-garden.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Image 2"
-                width={500}
-                height={500}
-                className="w-1/2 h-full object-cover rounded-3xl"
-              />
-              <Image
-                src="https://images.pexels.com/photos/29663700/pexels-photo-29663700/free-photo-of-butterfly-on-pink-zinnia-in-sunlit-garden.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Image 3"
-                width={500}
-                height={500}
-                className="w-1/2 h-full object-cover rounded-3xl"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 h-full">
-            <Image
-              src="https://images.pexels.com/photos/29663700/pexels-photo-29663700/free-photo-of-butterfly-on-pink-zinnia-in-sunlit-garden.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt="Image 1"
-              width={500}
-              height={500}
-              className="h-1/2 w-full object-cover rounded-3xl"
-            />
-            <div className="flex gap-4 h-1/2">
-              <Image
-                src="https://images.pexels.com/photos/29663700/pexels-photo-29663700/free-photo-of-butterfly-on-pink-zinnia-in-sunlit-garden.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Image 2"
-                width={500}
-                height={500}
-                className="w-1/2 h-full object-cover rounded-3xl"
-              />
-              <Image
-                src="https://images.pexels.com/photos/29663700/pexels-photo-29663700/free-photo-of-butterfly-on-pink-zinnia-in-sunlit-garden.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Image 3"
-                width={500}
-                height={500}
-                className="w-1/2 h-full object-cover rounded-3xl"
-              />
-            </div>
-          </div>
-        </div>
+   {/* Right: Image Grid */}
+<div className="hidden md:flex items-center justify-center h-full">
+  <Image
+    src="https://images.pexels.com/photos/9366074/pexels-photo-9366074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    alt="Image 1"
+    width={500}
+    height={800}
+    className="w-[70%] h-[80vh] object-cover rounded-3xl"
+  />
+</div>
+
 
       </div>
     </div>
