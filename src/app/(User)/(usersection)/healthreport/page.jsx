@@ -26,6 +26,7 @@ export default function ReportComponent() {
         
         const data = await response.json();
         setFetchedData(data.data || []);
+        console.log(fetchData)
       } catch (error) {
         console.error('Error fetching report:', error);
       } finally {
@@ -48,7 +49,7 @@ export default function ReportComponent() {
   <div className=' bg-gray-100 w-full h-full'>
           <div className='flex '>
       <div className='flex flex-col items-center  p-4 w-3/4 h-full bg-gray-100'>
-      <Reportgraph/>
+      <Reportgraph  data={fetchedData}/>
       </div>
       <div className='flex flex-col items-center  p-4 w-1/4 h-full bg-gray-100'>
       <NewHealthReportTable data={fetchedData} />
