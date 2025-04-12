@@ -228,11 +228,7 @@ const Reportgraph = () => {
           <BsGraphUpArrow className='inline-block mr-2'/>
           Health Metrics Trend
         </span>
-        <GenerateInsites 
-         selectedMetric={selectedMetric} 
-        values={values} 
-       dates={dates}
-       />
+        
 
       </h1>
       <div className="flex gap-1 my-4 border-b pb-2 overflow-x-auto">
@@ -291,6 +287,12 @@ const Reportgraph = () => {
           <span className="inline-block w-3 h-3 rounded-full bg-red-500 mr-1"></span>
           Values outside healthy range
         </p>
+        <br></br>
+        <GenerateInsites 
+         selectedMetric={selectedMetric} 
+        values={values} 
+       dates={dates}
+       />
       </div>
     </div>
   );
