@@ -37,7 +37,7 @@ const DoctorProfile = () => {
   }, [API_URL])
 
   return (
-    <div className="min-h-screen bg-gray-100 rounded-xl p-6">
+    <div className="min-h-screen bg-gray-100 rounded-xl py-6">
   <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-xl p-8">
     <h1 className="text-4xl font-bold text-green-500 mb-8">Profile</h1>
 
@@ -96,7 +96,7 @@ const DoctorProfile = () => {
           <img
             src="/image.png"
             alt="Doctor"
-            className="rounded-full w-[200px] h-[20 0px] object-cover border border-gray-300"
+            className="rounded-full w-[200px] h-[200px] object-cover border border-gray-300"
           />
         </div>
       </div>
