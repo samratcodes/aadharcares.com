@@ -54,8 +54,9 @@ export default function ReportComponent() {
       <NewHealthReportTable data={fetchedData} />
       </div>
       </div>
- 
+      <div className='flex flex-col items-center  p-4 w-full h-full bg-gray-100'>
       <HealthReportTable data={fetchedData} />
-    </div>
+      </div>
+  </div>
     );
 }

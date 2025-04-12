@@ -15,7 +15,7 @@ const NewHealthReportTable = ({ data }) => {
 const selectedMetric = 'temperature ,bloodPressure, heart, respiratory, oxygen, glucose';
 const values = data
   const latestReport = [...data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-
+ const dates = data.map((item) => item.createdAt).sort((a, b) => new Date(a) - new Date(b));
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
