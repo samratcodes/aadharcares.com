@@ -4,9 +4,9 @@ import axios from 'axios';
 import { marked } from 'marked';
 
 // interface GenerateInsightsProps {
-  // selectedMetric: string;
-  // values: number[];
-  // dates: string[];
+//   selectedMetric: string;
+//   values: number[];
+//   dates: string[];
 // }
 
 const GenerateInsights = ({ selectedMetric, values, dates }) => {
