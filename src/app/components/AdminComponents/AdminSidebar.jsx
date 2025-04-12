@@ -10,7 +10,7 @@ import { BsGraphUp, BsFlag } from 'react-icons/bs';
 import { FaBoxOpen } from 'react-icons/fa';
 import { RiQuestionnaireLine } from 'react-icons/ri';
 import { FiSettings } from 'react-icons/fi';
-
+import { FaPlus } from "react-icons/fa";
 const AdminSidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -19,12 +19,10 @@ const AdminSidebar = () => {
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
   const Menu = [
-    { name: 'Dashboard', link: '/dashboard', icon: <MdDashboard /> },
-    { name: 'Bookings', link: '/bookings', icon: <TfiAgenda /> },
-    { name: 'Bidding', link: '/bidding', icon: <BsGraphUp /> },
-    { name: 'Packages', link: '/packagesdesign', icon: <FaBoxOpen /> },
-    { name: 'Messages', link: '/messages', icon: <MdOutlineMessage /> },
-    { name: 'Statistics', link: '/statistics', icon: <MdOutlinePieChart /> },
+    { name: 'Dashboard', link: '/admindashboard', icon: <MdDashboard /> },
+    { name: 'Dr.verify', link: '/bookings', icon: <TfiAgenda /> },
+    { name: 'Transaction Verify', link: '/bidding', icon: <BsGraphUp /> },
+    { name: 'Recreational ', link: '/createrecreational', icon: <FaPlus /> },
   ];
 
   const Others = [
