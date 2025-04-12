@@ -86,18 +86,18 @@ const HomeRecreational = () => {
       ];
 
   return (
-    <div className='w-full bg-white rounded-lg shadow-sm m-4 p-6'>
+    <div className='w-full bg-white rounded-lg shadow-sm mx-4 mt-4 p-6'>
       <span className="text-2xl font-bold text-green-600">
                           <MdOutlineGroups2 className='inline-block mr-2'/>
                           Recreational Activities
                         </span>
       <div className='space-y-4'>
-        {dummyActivities.slice(0,6).map((activity) => (
+        {dummyActivities.slice(0,4).map((activity) => (
           <div 
             key={activity.id} 
             className='flex items-center gap-4 p-4 rounded-lg border border-gray-100 hover:shadow-md transition-shadow'
           >
-            <div className='relative w-24 h-24 flex-shrink-0'>
+            <div className='relative w-24 h-20 flex-shrink-0'>
               <Image
                 src={activity.images[0]}
                 alt={activity.title}

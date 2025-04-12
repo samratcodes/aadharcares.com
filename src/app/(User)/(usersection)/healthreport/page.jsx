@@ -1,35 +1,46 @@
-'use client'; // This is a Client Component
-
-import { useEffect } from 'react';
+'use client';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import HealthReportTable from '@/app/components/UserComponents/HealthReportTable';
+
+
 export default function ReportComponent() {
-const token = Cookies.get('accessToken');
-console.log('Token:', token); // Log the token to verify it's being retrieved correctly
-// Get the token from cookies
+  const [fetchedData, setFetchedData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const token = Cookies.get('accessToken');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://192.168.100.18:8000/api/user/report', {
+        const response = await fetch(`${API_URL}api/user/report`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
 
-        if (!response.ok) {
-          console.log('Response status:', response.status); // Log the response status
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
         const data = await response.json();
-        console.log('Report data:', data);
+        setFetchedData(data.data || []);
       } catch (error) {
         console.error('Error fetching report:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [API_URL, token]);
 
-  return <div>Check console for report data</div>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
+
+  return <HealthReportTable data={fetchedData} />;
 }

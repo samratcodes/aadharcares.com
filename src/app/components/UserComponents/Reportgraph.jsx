@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 import React, { useState } from 'react';
 import { BsGraphUpArrow } from "react-icons/bs";
+import GenerateInsites from './GenerateInsites';
 
 const dummyData = {
   "success": true,
@@ -222,11 +223,17 @@ const Reportgraph = () => {
 
   return (
     <div className="bg-white shadow-xl rounded-2xl p-6">
-      <h1>
+      <h1 className='w-full flex justify-between items-center'>
         <span className="text-2xl font-bold text-green-600">
           <BsGraphUpArrow className='inline-block mr-2'/>
           Health Metrics Trend
         </span>
+        <GenerateInsites 
+         selectedMetric={selectedMetric} 
+        values={values} 
+       dates={dates}
+       />
+
       </h1>
       <div className="flex gap-1 my-4 border-b pb-2 overflow-x-auto">
         {metricKeys.map((key) => (
