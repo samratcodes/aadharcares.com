@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import HealthReportTable from '@/app/components/UserComponents/HealthReportTable';
 import Reportgraph from '@/app/components/UserComponents/Reportgraph';
+import NewHealthReportTable from '@/app/components/UserComponents/NewHealthReport';
 
 
 export default function ReportComponent() {
@@ -50,7 +51,7 @@ export default function ReportComponent() {
       <Reportgraph/>
       </div>
       <div className='flex flex-col items-center  p-4 w-1/4 h-full bg-gray-100'>
-      
+      <NewHealthReportTable data={fetchedData} />
       </div>
       </div>
  
