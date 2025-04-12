@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import HealthReportTable from '@/app/components/UserComponents/HealthReportTable';
+import Reportgraph from '@/app/components/UserComponents/Reportgraph';
 
 
 export default function ReportComponent() {
@@ -42,5 +43,18 @@ export default function ReportComponent() {
     );
   }
 
-  return <HealthReportTable data={fetchedData} />;
+  return (
+  <div className=' bg-gray-100 w-full h-full'>
+          <div className='flex '>
+      <div className='flex flex-col items-center  p-4 w-3/4 h-full bg-gray-100'>
+      <Reportgraph/>
+      </div>
+      <div className='flex flex-col items-center  p-4 w-1/4 h-full bg-gray-100'>
+      
+      </div>
+      </div>
+ 
+      <HealthReportTable data={fetchedData} />
+    </div>
+    );
 }
