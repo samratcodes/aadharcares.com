@@ -3,12 +3,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { marked } from 'marked';
 
-// interface GenerateInsightsProps {
-//   selectedMetric: string;
-//   values: number[];
-//   dates: string[];
-// }
-
 const GenerateInsights = ({ selectedMetric, values, dates }) => {
   const [insights, setInsights] = useState('');
   const [isLoading, setIsLoading] = useState(false);

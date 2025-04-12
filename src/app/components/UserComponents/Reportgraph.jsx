@@ -5,37 +5,6 @@ import React, { useState } from 'react';
 import { BsGraphUpArrow } from "react-icons/bs";
 import GenerateInsites from './GenerateInsites';
 
-const dummyData = {
-  "success": true,
-  "data": [
-    {
-      "id": 4,
-      "bodyTemperatureCelsius": 36,
-      "bloodPressureSystolic": 135,
-      "bloodPressureDiastolic": 88,
-      "heartRate": 82,
-      "respiratoryRate": 17,
-      "oxygenSaturationPercent": 97,
-      "bloodGlucoseMgDl": 115,
-      "createdAt": "2025-04-11T17:18:53.000Z",
-      "updatedAt": "2025-04-11T17:18:53.000Z",
-      "userId": 1
-    },
-    {
-      "id": 5,
-      "bodyTemperatureCelsius": 34,
-      "bloodPressureSystolic": 131,
-      "bloodPressureDiastolic": 87,
-      "heartRate": 82,
-      "respiratoryRate": 17,
-      "oxygenSaturationPercent": 97,
-      "bloodGlucoseMgDl": 112,
-      "createdAt": "2025-04-11T17:19:23.000Z",
-      "updatedAt": "2025-04-11T17:19:23.000Z",
-      "userId": 1
-    }
-  ]
-};
 
 const metricInfo = {
   bloodGlucoseMgDl: {
@@ -82,11 +51,13 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 };
 
-const Reportgraph = () => {
-  const [selectedMetric, setSelectedMetric] = useState('bloodGlucoseMgDl');
+const Reportgraph = ({data}) => {
+  console.log(data);
 
-  const dates = dummyData.data.map((p) => formatDate(p.createdAt));
-  const values = dummyData.data.map((p) => p[selectedMetric]);
+  const [selectedMetric, setSelectedMetric] = useState('bloodGlucoseMgDl');
+  const dates = data.map((p) => formatDate(p.createdAt));
+  const values = data.map((p) => p[selectedMetric]);
+
   const { label, normalMin, normalMax } = metricInfo[selectedMetric];
 
   // Calculate if each value is within normal range
@@ -228,8 +199,6 @@ const Reportgraph = () => {
           <BsGraphUpArrow className='inline-block mr-2'/>
           Health Metrics Trend
         </span>
-        
-
       </h1>
       <div className="flex gap-1 my-4 border-b pb-2 overflow-x-auto">
         {metricKeys.map((key) => (
