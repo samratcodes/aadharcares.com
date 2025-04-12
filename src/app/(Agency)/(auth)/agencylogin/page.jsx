@@ -39,6 +39,7 @@ const agencylogin = () => {
       const data = await response.json();
   console.log(data)
       if (response.ok) {
+        router.push('/dashboard'); // redirect on success
         console.log(data)
         Cookies.set('docsAccessToken', data.accessToken, { expires: 7 });
         // router.push('/dashboard');

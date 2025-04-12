@@ -1,92 +1,91 @@
-'use client'
-
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { FaHome, FaUserCheck, FaSignOutAlt, FaFileAlt, FaMoneyCheckAlt, FaUserCircle } from "react-icons/fa"
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import Image from 'next/image';
+import { HiOutlineMenuAlt3 } from 'react-icons/hi';
+import { FaUserCheck, FaSignOutAlt, FaFileAlt, FaMoneyCheckAlt, FaUserCircle } from "react-icons/fa"
+import { MdDashboard} from 'react-icons/md';
+import { BsFlag } from 'react-icons/bs';
+import { RiQuestionnaireLine } from 'react-icons/ri';
+import { FiSettings } from 'react-icons/fi';
 
 const Sidebar = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const router = useRouter();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
+
+  const Menu = [
+    { name: 'Dashboard', link: '/dashboard', icon: <MdDashboard /> },
+    { name: 'Verify Clients', link: '/clientsVerify', icon: <FaUserCheck /> },
+    { name: 'Profile', link: '/docsProfile', icon: <FaUserCircle /> },
+    { name: 'Payment History', link: '/paymentHistory', icon: <FaMoneyCheckAlt /> },
+    { name: 'Reports', link: '/sendReport', icon: <FaFileAlt /> },
+  ];
+
+  const Others = [
+    { name: 'Help Center', link: '#', icon: <RiQuestionnaireLine /> },
+    { name: 'Report', link: '#', icon: <BsFlag /> },
+    { name: 'Settings', link: '/setting', icon: <FiSettings /> },
+  ];
+
+  const handleLogout = () => {
+    // logic here
+  };
+
+  const renderLink = (item, idx) => (
+    <Link href={item.link} key={idx}>
+      <li
+        className={`group flex items-center gap-4 text-gray-700 hover:text-green-600 transition-all px-4 py-2 rounded-lg cursor-pointer ${
+          pathname.startsWith(item.link) ? 'bg-green-100 text-green-700 font-semibold' : ''
+        } ${isCollapsed ? 'justify-center' : ''}`}
+      >
+        <span className="text-xl">{item.icon}</span>
+        {!isCollapsed && <span className="text-sm">{item.name}</span>}
+      </li>
+    </Link>
+  );
 
   return (
-    <div className="h-screen w-75 bg-gray-100 flex flex-col justify-between">
-      <div>
-        <div className="flex items-center bg-transparent m-3">
-          <Link href="/">
-            <Image 
-              src="/logo.png" 
-              alt="Logo" 
-              width={50} 
-              height={50} 
-              className="cursor-pointer rounded-full" 
-            />
-          </Link>
+    <aside className={`bg-white shadow-md h-screen sticky top-0 flex flex-col justify-between transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'} px-2`}>
+      {/* Top: Toggle + Logo */}
+      <div className="w-full space-y-4">
+        <div className="flex justify-between items-center px-2 pt-3">
+          <button onClick={toggleSidebar} className="text-2xl text-gray-600 hover:text-black">
+            <HiOutlineMenuAlt3 />
+          </button>
         </div>
 
-        <ul className="flex flex-col mt-5 ml-5 mr-3">
-          <li className="border-b border-gray-300 pb-2 mb-2">
-            <Link 
-              href="/dashboard" 
-              className={`flex items-center gap-2 text-gray-700 text-lg font-semibold hover:text-green-300 ${pathname === "/dashboard" ? "text-green-500" : ""}`}
-            >
-              <FaHome className="text-xl" />
-              Home
-            </Link>
-          </li>
+        <div className="flex items-center gap-2 px-2">
+          <Image src="/logo.png" alt="Logo" width={40} height={40} className="rounded-full" />
+          {!isCollapsed && <span className="text-lg font-bold text-green-600">Aadhar</span>}
+        </div>
 
-          <li className="border-b border-gray-300 pb-2 mb-2">
-            <Link 
-              href="/clientsVerify" 
-              className={`flex items-center gap-2 text-gray-700 text-lg font-semibold hover:text-green-300 ${pathname === "/clientsVerify" ? "text-green-500" : ""}`}
-            >
-              <FaUserCheck className="text-xl" />
-              Clients Verify
-            </Link>
-          </li>
+        <ul className="flex flex-col gap-1 mt-4">
+          {Menu.map(renderLink)}
+        </ul>
 
-          <li className="border-b border-gray-300 pb-2 mb-2">
-            <Link 
-              href="/sendReport" 
-              className={`flex items-center gap-2 text-gray-700 text-lg font-semibold hover:text-green-300 ${pathname === "/sendReport" ? "text-green-500" : ""}`}
-            >
-              <FaFileAlt className="text-xl" />
-              Reports
-            </Link>
-          </li>
+        <div className="border-t border-gray-300 my-4" />
 
-          <li className="border-b border-gray-300 pb-2 mb-2">
-            <Link 
-              href="/paymentHistory" 
-              className={`flex items-center gap-2 text-gray-700 text-lg font-semibold hover:text-green-300 ${pathname === "/paymentHistory" ? "text-green-500" : ""}`}
-            >
-              <FaMoneyCheckAlt className="text-xl" />
-              Payment History
-            </Link>
-          </li>
-
-          <li>
-            <Link 
-              href="/docsProfile" 
-              className={`flex items-center gap-2 text-gray-700 text-lg font-semibold hover:text-green-300 ${pathname === "/docsProfile" ? "text-green-500" : ""}`}
-            >
-              <FaUserCircle className="text-xl" />
-              Profile
-            </Link>
-          </li>
+        <ul className="flex flex-col gap-1">
+          {Others.map(renderLink)}
         </ul>
       </div>
 
-      <div className="ml-5 mr-3 mb-5">
-        <Link 
-          href="/agencylogin" 
-          className="flex items-center gap-2 text-gray-700 text-[1.15rem] font-semibold hover:text-green-300"
+      {/* Bottom: Logout */}
+      <div className="w-full pb-4">
+        <button
+          onClick={handleLogout}
+          className={`flex items-center gap-4 text-red-500 font-medium hover:text-red-600 px-4 py-2 rounded-lg transition-all w-full ${isCollapsed ? 'justify-center' : ''}`}
         >
           <FaSignOutAlt className="text-xl" />
-          Logout
-        </Link>
+          {!isCollapsed && <span className="text-sm">Logout</span>}
+        </button>
       </div>
-    </div>
-  )
-}
+    </aside>
+  );
+};
 
-export default Sidebar
+export default Sidebar;
