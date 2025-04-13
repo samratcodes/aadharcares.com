@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import PaymentSuccess from '@/app/components/UserComponents/PaymentSuccess';
 
 const AppointmentSuccess = ({params}) => {
   const [loading, setLoading] = useState(true);
@@ -37,7 +38,9 @@ const AppointmentSuccess = ({params}) => {
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  return <p>Appointment confirmed ✅</p>;
+  return <div>
+  <PaymentSuccess/>
+    </div>;
 
 };
 
