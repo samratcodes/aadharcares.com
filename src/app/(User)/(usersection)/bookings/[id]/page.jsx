@@ -115,10 +115,7 @@ const Page = ({ params }) => {
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
         <div className="w-40 h-40 relative rounded-full overflow-hidden border-4 border-green-500 shadow-md">
           <Image
-            src={
-              fetchedData.profilePicture ||
-              'https://images.pexels.com/photos/31563478/pexels-photo-31563478/free-photo-of-man-relaxing-on-rooftop-with-ocean-view-in-vietnam.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
-            }
+            src={ fetchedData.profilePicture ||"https://images.pexels.com/photos/28216688/pexels-photo-28216688/free-photo-of-autumn-camping.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}
             alt="Profile"
             fill
             className="object-cover"
@@ -144,7 +141,7 @@ const Page = ({ params }) => {
 
           </div>
          
-          <span className='font-medium text-3xl text-green-600'>{fetchedData.pricePerHour ? `$${fetchedData.pricePerHour} /hr` : 'Not available'}</span>
+          <span className='font-medium mt-9 text-2xl text-green-600'>{fetchedData.pricePerHour ? `$${fetchedData.pricePerHour} /hr` : '$100/hr'}</span>
           <div className="flex items-center mt-3 text-sm text-gray-800">
             <FaStar className="text-yellow-500 mr-1" />
             <span>{fetchedData.rating || '3'}/5 • 23 reviews</span>
