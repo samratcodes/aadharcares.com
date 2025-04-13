@@ -11,6 +11,7 @@
  import { MdBloodtype } from "react-icons/md";
  import axios from "axios";
  import Cookies from "js-cookie";
+import RecreationalCard from "@/app/components/UserComponents/RecreationalCard";
  
  const UserProfile = () => {
    const [userDetails, setUserDetails] = useState(null);
@@ -148,34 +149,11 @@
            <p className="text-center text-gray-500">No activities booked yet.</p>
          ) : (
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-             {userActivities.map((activity) => (
-               <div
-                 key={activity.id}
-                 className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between text-black hover:shadow-lg transition-shadow"
-               >
-                 {activity.imageUrl && (
-                   <img
-                     src={activity.imageUrl}
-                     alt={activity.title}
-                     className="w-full h-40 object-cover rounded-md mb-4"
-                   />
-                 )}
-                 <h3 className="text-lg font-semibold text-green-600">{activity.title}</h3>
-                 <p className="mt-2 text-gray-700 text-sm">{activity.description}</p>
-                 <p className="mt-2 text-sm text-gray-500">
-                   People: {activity.numberOfPeople}
-                 </p>
-                 <p className="text-sm text-gray-500">Price: ${activity.price}</p>
-                 {activity.date && (
-                   <p className="text-sm text-gray-500">Date: {new Date(activity.date).toLocaleDateString()}</p>
-                 )}
-                 <button
-                   onClick={() => handleCancelActivity(activity.id)}
-                   className="mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
-                 >
-                   Cancel
-                 </button>
-               </div>
+             {userActivities.map((activity ,index) => (
+               <RecreationalCard
+               activity={activity}
+                key={index}
+               />
              ))}
            </div>
          )}

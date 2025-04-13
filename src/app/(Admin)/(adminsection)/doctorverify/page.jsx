@@ -6,13 +6,13 @@ const AdminApprovalTable = () => {
 
   const [users, setUsers] = useState([
     {
-      id: 1,
-      username: "john_doe_123",
-      email: "john.doe@example.com",
-      firstName: "John",
-      lastName: "Doe",
-      role: "doctor",
-      contactNumber: "+1 (555) 123-4567",
+      id: 0,
+      username: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      role: "",
+      contactNumber: "",
       verified: false,
       specialization: "Cardiology",
       profilePicture: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
@@ -21,22 +21,7 @@ const AdminApprovalTable = () => {
       citizenshipPhotoBack: "https://images.pexels.com/photos/269443/pexels-photo-269443.jpeg",
       verification: "pending"
     },
-    {
-      id: 2,
-      username: "jane_smith",
-      email: "jane.smith@example.com",
-      firstName: "Jane",
-      lastName: "Smith",
-      role: "nurse",
-      contactNumber: "+1 (555) 987-6543",
-      verified: false,
-      specialization: "Pediatrics",
-      profilePicture: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
-      certifications: "https://images.pexels.com/photos/159832/book-open-pages-literature-159832.jpeg",
-      citizenshipPhotoFront: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg",
-      citizenshipPhotoBack: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg",
-      verification: "pending"
-    }
+   
   ]);
   const [fetchedData, setFetchedData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

@@ -1,8 +1,11 @@
 'use client'
-import React, { useState } from 'react';
+import Cookies from 'js-cookie';
+import React, { useState,useEffect } from 'react';
 import { FaHiking, FaPaintBrush, FaYinYang, FaUtensils, FaRegBookmark, FaBookmark, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
 import { FiUsers, FiCalendar, FiClock, FiMapPin } from 'react-icons/fi';
 import Image from 'next/image';
+
+
 const ActivityCard = ({ activity, onClick }) => {
 
 
@@ -68,10 +71,7 @@ const ActivityCard = ({ activity, onClick }) => {
               activity.booked
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md hover:shadow-emerald-200'
-            }`}
-            disabled={activity.booked}
-            onClick={(e) => e.stopPropagation()}
-          >
+            }`} >
             {activity.booked ? 'Fully Booked' : 'Join Now'}
           </button>
         </div>
@@ -82,7 +82,8 @@ const ActivityCard = ({ activity, onClick }) => {
 
 const ActivityModal = ({ activity, onClose }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const token = Cookies.get('accessToken');
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => 
       prevIndex === activity.images.length - 1 ? 0 : prevIndex + 1
@@ -93,6 +94,29 @@ const ActivityModal = ({ activity, onClose }) => {
     setCurrentImageIndex((prevIndex) => 
       prevIndex === 0 ? activity.images.length - 1 : prevIndex - 1
     );
+  };
+  const Booknow = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}api/user/book_activity/${id}`, {
+        method: 'POST', // Specify the method as POST
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        // If you need to send a body with the request, uncomment and modify the following:
+        // body: JSON.stringify({ 
+        //   /* your data here */ 
+        // }),
+      });
+  
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      console.log('data', data);
+      
+    } catch (error) {
+      console.error('Error approving doctor:', error);
+    } 
   };
 
   return (
@@ -194,7 +218,9 @@ const ActivityModal = ({ activity, onClose }) => {
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                     : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md hover:shadow-emerald-200'
                 }`}
-                disabled={activity.booked}
+                onClick={(e) => { e.stopPropagation(); Booknow(activity.id);  // Close the modal after booking
+                  alert('Booking Successful!'); // Show success message
+                }}
               >
                 {activity.booked ? 'Fully Booked' : 'Book Now'}
               </button>
@@ -207,91 +233,33 @@ const ActivityModal = ({ activity, onClose }) => {
 };
 
 const ActivityList = () => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const token = Cookies.get('accessToken');
+    const [activityData, setActivityData] = useState([]);
   const [selectedActivity, setSelectedActivity] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_URL}api/user/activities`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-  const dummyActivities = [
-    {
-      id: 1,
-      title: "Sunset Hike to the Hills",
-      description:
-        "Join us for a beautiful sunset hike with stunning views and great company. This moderate 5-mile hike takes you through scenic trails with panoramic views perfect for photography enthusiasts.",
-      numberOfPeople: 12,
-      price: 20.0,
-      tentativeDate: "2025-04-25",
-      time: "17:30:00",
-      category: "Outdoor",
-      images: [
-        "https://images.pexels.com/photos/31439681/pexels-photo-31439681/free-photo-of-historic-building-scene-with-sitting-seniors-in-istanbul.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/31520992/pexels-photo-31520992/free-photo-of-elderly-man-walking-by-river-in-vrindavan.jpeg?auto=compress&cs=tinysrgb&w=600"
-      ],
-      booked: false
-    },
-    {
-      id: 2,
-      title: "Yoga in the Park",
-      description:
-        "Experience peace and tranquility in an open-air yoga session led by a certified instructor. Suitable for all levels.",
-      numberOfPeople: 20,
-      price: 10.0,
-      tentativeDate: "2025-05-01",
-      time: "06:30:00",
-      category: "Wellness",
-      images: [
-        "https://images.pexels.com/photos/31576587/pexels-photo-31576587/free-photo-of-senior-woman-practicing-yoga-outdoors-among-trees.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/31576588/pexels-photo-31576588/free-photo-of-active-senior-woman-practicing-yoga-outdoors.jpeg?auto=compress&cs=tinysrgb&w=600"
-      ],
-      booked: false
-    },
-    {
-      id: 3,
-      title: "Coffee Brewing Workshop",
-      description:
-        "Learn the art of brewing the perfect cup of coffee using various methods like pour-over and French press.",
-      numberOfPeople: 15,
-      price: 25.0,
-      tentativeDate: "2025-05-10",
-      time: "10:00:00",
-      category: "Workshop",
-      images: [
-        "https://images.pexels.com/photos/4499395/pexels-photo-4499395.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/4820817/pexels-photo-4820817.jpeg?auto=compress&cs=tinysrgb&w=600"
-      ],
-      booked: false
-    },
-    {
-      id: 4,
-      title: "Night Sky Star Gazing",
-      description:
-        "Discover constellations and planets with telescopes under expert guidance. A magical experience for space lovers.",
-      numberOfPeople: 30,
-      price: 18.0,
-      tentativeDate: "2025-05-20",
-      time: "20:00:00",
-      category: "Science",
-      images: [
-        "https://images.pexels.com/photos/7597830/pexels-photo-7597830.jpeg?auto=compress&cs=tinysrgb&w=600",
-        "https://images.pexels.com/photos/13213753/pexels-photo-13213753.jpeg?auto=compress&cs=tinysrgb&w=600"
-      ],
-      booked: false
-    },
-    {
-      id: 5,
-      title: "Local Art Tour",
-      description:
-        "Explore the local art scene with a guided tour through popular galleries and street art spots.",
-      numberOfPeople: 10,
-      price: 15.0,
-      tentativeDate: "2025-05-12",
-      time: "13:00:00",
-      category: "Culture",
-      images: [
-        "https://images.pexels.com/photos/18698307/pexels-photo-18698307/free-photo-of-buildings-and-cathedral-of-barcelona.jpeg?auto=compress&cs=tinysrgb&w=600",
-    
-      ],
-      booked: false
-    }
-  ];
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
+        const data = await response.json();
+        console.log('data',data)
+        setActivityData(data.data || []);
+        
+      } catch (error) {
+        console.error('Error fetching report:', error);
+      } 
+}
 
+    fetchData();
+  }, [API_URL, token]);
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
@@ -300,7 +268,7 @@ const ActivityList = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {dummyActivities.map((activity) => (
+        {activityData.map((activity) => (
           <ActivityCard 
             key={activity.id} 
             activity={activity} 
