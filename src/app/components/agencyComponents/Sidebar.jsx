@@ -59,10 +59,12 @@ const Sidebar = () => {
           </button>
         </div>
 
+        <Link href="/">
         <div className="flex items-center gap-2 px-2">
           <Image src="/logo.png" alt="Logo" width={40} height={40} className="rounded-full" />
           {!isCollapsed && <span className="text-lg font-bold text-green-600">Aadhar</span>}
         </div>
+          </Link>
 
         <ul className="flex flex-col gap-1 mt-4">
           {Menu.map(renderLink)}
