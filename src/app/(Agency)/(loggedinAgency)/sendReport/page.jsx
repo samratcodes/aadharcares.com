@@ -106,7 +106,9 @@ const SendReport = () => {
 
     try {
       console.log('Submitting vitals:', payload.vitalReports[0])
-      await axios.post(`${API_URL}api/doctor/vitalreport`, payload.vitalReports[0], {        headers: {
+      await axios.post(`${API_URL}api/doctor/vitalreport`, payload.vitalReports[0], {
+        console.log('Submitting vitals:', payload.vitalReports[0])        
+        headers: {
           Authorization: `Bearer ${storedToken}`,
         },
       })

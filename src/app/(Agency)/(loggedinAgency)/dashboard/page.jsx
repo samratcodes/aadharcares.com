@@ -2,7 +2,8 @@
 
 const dashboard = () => {
   return (
-    <div>dashboard
+    <div>
+      dashboard
     </div>
   )
 }
