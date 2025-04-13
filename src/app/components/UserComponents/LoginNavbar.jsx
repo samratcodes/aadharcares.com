@@ -54,7 +54,7 @@ const LoginNavbar = () => {
           </Link>
         ))}
         <Link
-          href="/userprofile"
+          href="/profile"
           className={`flex items-center space-x-1.5 px-3 py-2 rounded-md transition-colors ${
             pathname === "/userprofile"
               ? "bg-green-100 text-green-700 font-semibold"

@@ -232,7 +232,7 @@ const ActivityModal = ({ activity, onClose }) => {
   );
 };
 
-const ActivityList = () => {
+const LandingRecreational = () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const token = Cookies.get('accessToken');
     const [activityData, setActivityData] = useState([]);
@@ -242,7 +242,6 @@ const ActivityList = () => {
       try {
         const response = await fetch(`${API_URL}api/user/activities`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
@@ -261,8 +260,8 @@ const ActivityList = () => {
     fetchData();
   }, [API_URL, token]);
   return (
-    <div className="container mx-auto px-4 py-4">
-      <div className="text-center mb-6">
+    <div className="container mx-auto px-8 py-12 ">
+      <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-green-600 mb-3">Discover Upcoming Activities</h2>
         <p className="text-gray-600 max-w-2xl mx-auto">Join unique experiences and connect with like-minded people</p>
       </div>
@@ -287,4 +286,4 @@ const ActivityList = () => {
   );
 };
 
-export default ActivityList;
+export default LandingRecreational;
