@@ -53,10 +53,17 @@ const LoginNavbar = () => {
             <span>{item.text}</span>
           </Link>
         ))}
-        
+        <Link
+          href="/userprofile"
+          className={`flex items-center space-x-1.5 px-3 py-2 rounded-md transition-colors ${
+            pathname === "/userprofile"
+              ? "bg-green-100 text-green-700 font-semibold"
+              : "text-gray-600 hover:bg-gray-100 font-medium"
+          }`}>
         <div className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition-colors cursor-pointer">
           <FaRegUserCircle className='w-6 h-6'/>
         </div>
+        </Link>
       </div>
     </nav>
   )

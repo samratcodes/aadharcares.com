@@ -41,7 +41,7 @@ const Login = () => {
       if (response.ok) {
         console.log(data)
         Cookies.set('accessToken', data.accessToken, { expires: 7 });
-        // router.push('/dashboard');
+        router.push('/userhome');
       } else {
         setError(data.message || 'Invalid credentials.');
       }
