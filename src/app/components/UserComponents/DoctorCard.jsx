@@ -22,10 +22,11 @@ const DoctorCard = ({ doctor }) => {
         <Link href={`/bookings/${id}`} className="w-full h-full">
       <div className="w-full h-72 relative">
         <Image
-          src={profilePicture || "https://via.placeholder.com/400x300?text=No+Image"}
+          src={profilePicture || "https://images.pexels.com/photos/28216688/pexels-photo-28216688/free-photo-of-autumn-camping.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}
           alt="Profile"
-          fill
-          className="object-cover"
+          width={400}
+          height={300}     
+          className=" w-full h-full object-cover"
         />
       </div>
 

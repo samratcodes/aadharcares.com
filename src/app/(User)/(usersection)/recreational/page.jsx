@@ -261,9 +261,9 @@ const ActivityList = () => {
     fetchData();
   }, [API_URL, token]);
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">Discover Upcoming Activities</h2>
+    <div className="container mx-auto px-4 py-4">
+      <div className="text-center mb-6">
+        <h2 className="text-3xl font-bold text-green-600 mb-3">Discover Upcoming Activities</h2>
         <p className="text-gray-600 max-w-2xl mx-auto">Join unique experiences and connect with like-minded people</p>
       </div>
       
@@ -275,12 +275,6 @@ const ActivityList = () => {
             onClick={() => setSelectedActivity(activity)}
           />
         ))}
-      </div>
-      
-      <div className="text-center mt-12">
-        <button className="px-6 py-3 border border-emerald-600 text-emerald-600 rounded-lg font-medium hover:bg-emerald-50 transition-colors">
-          View All Activities
-        </button>
       </div>
 
       {selectedActivity && (
