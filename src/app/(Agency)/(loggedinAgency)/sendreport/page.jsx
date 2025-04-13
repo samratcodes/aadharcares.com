@@ -140,8 +140,8 @@ const SendReport = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-green-600 mb-6">Submit Reports</h1>
+    <div className="min-h-screen rounded-lg bg-gray-100 p-6">
+      <h1 className="text-4xl font-bold text-green-500 mb-10">Submit Reports</h1>
 
       {fromBackend.length === 0 ? (
         <p className="text-gray-500">No accepted appointments available.</p>

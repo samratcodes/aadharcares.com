@@ -17,6 +17,7 @@ const agentsignup = () => {
   const [backcitizen, setBackCitizen] = useState('');
   const [frontCitizen, setFrontCitizen] = useState('');
   const [valueCertifications, setCertifications] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
@@ -52,6 +53,35 @@ const agentsignup = () => {
       }
     };
 
+    const handleChange_profilePicture = async (e) => {
+      const files = e.target.files;
+    
+      if (!files || files.length === 0) return;
+    
+      const file = files[0];
+    
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "profilePicture"); // must match your Cloudinary preset
+    
+      try {
+        const res = await fetch("https://api.cloudinary.com/v1_1/daaizghcr/image/upload", {
+          method: "POST",
+          body: data,
+        });
+    
+        const uploadedFile = await res.json();
+    
+        if (uploadedFile.secure_url) {
+          console.log("Uploaded URL:", uploadedFile.secure_url);
+          setProfilePicture(uploadedFile.secure_url);
+        } else {
+          console.error("Upload failed", uploadedFile);
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    };
     
   const handleChange_citizenshipPhotoBack = async (e) => {
     const files = e.target.files;
@@ -119,7 +149,7 @@ const agentsignup = () => {
       setError('');
     
       try {
-          console.log(values,frontCitizen,backcitizen,valueCertifications)
+          console.log(values,frontCitizen,backcitizen,valueCertifications,profilePicture)
         const response = await fetch(`${API_URL}doctor/auth/register/`, {
           method: 'POST',
           headers: {
@@ -137,6 +167,7 @@ const agentsignup = () => {
             citizenshipPhotoFront: frontCitizen,
             citizenshipPhotoBack: backcitizen,
             bio: values.bio,
+            profilePicture: profilePicture,
             experience: values.experience,
             specialization: values.specialization,
             certifications: valueCertifications,
@@ -177,8 +208,10 @@ const agentsignup = () => {
     lastName: Yup.string().required('Last name is required'),
     contactNumber: Yup.string().required('Contact number is required'),
     citizenshipNumber: Yup.string().required('Citizenship number is required'),
-    role: Yup.string().required('Role is required'),
-    bio: Yup.string().required('Bio is required'),
+    role: Yup.string()
+    .required('Role is required')
+    .oneOf(['doctor', 'nurse', 'caretaker'], 'Role must be doctor, nurse, or caretaker'),
+      bio: Yup.string().required('Bio is required'),
     experience: Yup.number()
       .required('Experience is required')
       .positive('Experience must be a positive number'),
@@ -217,6 +250,7 @@ const agentsignup = () => {
                 citizenshipNumber: '',
                 citizenshipPhotoFront: '',
                 citizenshipPhotoBack: '',
+                profilePicture: '',
                 bio: '',
                 experience: '',
                 specialization: '',
@@ -392,7 +426,7 @@ const agentsignup = () => {
                       Citizenship Number
                     </label>
                     <Field
-                      type="number"
+                      type="text"
                       name="citizenshipNumber"
                       placeholder="Eg. 63456"
                       className={`w-full p-2 mt-1 ring-1 rounded-md focus:outline-none ${
@@ -455,6 +489,23 @@ const agentsignup = () => {
                       />
                       <ErrorMessage name="specialization" component="p" className="text-red-500 text-sm" />
                     </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="profilePicture" className="font-normal text-lg text-blue-950">
+                      Profile Picture
+                    </label>
+                    <Field
+                      type="file"
+                      name="profilePicture"
+                      onChange={handleChange_profilePicture}
+                      className={`w-full p-2 mt-1 ring-1 rounded-md focus:outline-none ${
+                        errors.profilePicture && touched.profilePicture
+                          ? 'ring-red-500 focus:ring-red-500'
+                          : 'ring-gray-200 focus:ring-LoginCustom'
+                      }`}
+                    />
+                    <ErrorMessage name="profilePicture" component="p" className="text-red-500 text-sm" />
                   </div>
 
                   <div className="flex gap-4">
@@ -531,8 +582,7 @@ const agentsignup = () => {
             <div className="text-center">
               <span className="text-base font-normal">
                 Already have an account?{' '}
-                <Link href="/agencylogin
-                " className="text-blue-800">
+                <Link href="/agentlogin" className="text-blue-800">
                   Login
                 </Link>
               </span>
