@@ -4,6 +4,16 @@
 Built with **Next.js** and **Tailwind CSS**, it combines **LLM-powered AI** and **interactive data visualizations** to turn raw health data into meaningful insights—helping users not just track numbers, but truly understand their well-being.
 
 ---
+
+## 🧩 Problem Statement
+
+With millions of families living apart across borders, ensuring consistent healthcare and emotional connection for elderly parents becomes a challenge. AadharCares bridges that gap by allowing children to monitor health, book caregivers, and engage parents in recreational activities—no matter where they are in the world.
+
+---
+
+## 🏗️ System Architecture
+
+
 ---
 
 ## 🚀 Features
@@ -19,10 +29,9 @@ Built with **Next.js** and **Tailwind CSS**, it combines **LLM-powered AI** and 
   - Automatically detects abnormalities and generates a concise health condition summary  
 
 - 🧘‍♂️ **Recreational Activity Booking**  
-  - Thoughtfully curated activities that users can browse and book based on their interests and comfort  
-  - Encourages joy, social connection, and gentle engagement — vital for emotional well-being  
+  - Thoughtfully curated activities users can browse and pick freely based on their comfort and interests  
   - Displays **booked activities** with image, title, date, description, and price  
-  - Includes an option to cancel activities if needed   
+  - Includes an option to cancel activities if needed  
 
 - 📊 **Real-time Health Metrics**  
   - Tracks vitals such as body temperature, blood pressure, heart rate, respiratory rate, oxygen saturation, and blood glucose  
@@ -40,7 +49,6 @@ Built with **Next.js** and **Tailwind CSS**, it combines **LLM-powered AI** and 
   - Ensures user privacy and session safety  
 
 ---
----
 
 ## 🧠 How AI Enhances the Platform
 
@@ -56,9 +64,9 @@ This turns raw numbers into **insightful narratives** for proactive health decis
 
 Health stats over time can be hard to interpret — that’s why we use **Plotly**:
 
-- Interactive graphs of key vitals (like BP, glucose, heart rate)
-- Intuitive zoom/pan for long-term tracking
-- Future-ready for multi-metric comparisons
+- Interactive graphs of key vitals (like BP, glucose, heart rate)  
+- Intuitive zoom/pan for long-term tracking  
+- Future-ready for multi-metric comparisons  
 
 ---
 
@@ -69,15 +77,40 @@ Health stats over time can be hard to interpret — that’s why we use **Plotly
 - **Auth:** JWT with js-cookie  
 - **Data Viz:** Plotly.js  
 - **AI Insight Engine:** Gemini 1.5 Flash (LLM API)  
-- **API Communication:** Axios  
+- **Backend:** Express.js, PostgreSQL  
+- **Payments:** Stripe Integration  
 - **Deployment:** Vercel  
-
 ---
+## 👨‍👩‍👧‍👦 Team Members & Contributions
 
+| Name             | Role & Contributions                                                                 |
+|------------------|----------------------------------------------------------------------------------------|
+| **Samrat Sapkota**  | 🔹 Frontend developer (Next.js + Tailwind CSS) <br> 🔹 Admin & user UI, integrated Plotly.js |
+| **Pranish Karki**   | 🔹 Frontend developer (Next.js + Tailwind CSS) <br> 🔹 Built Doctor, Nurse, Caretaker portals |
+| **Santosh Gaire**   | 🔹 Integrated Gemini LLM API for health report insights <br> 🔹 Developed user profile section |
+| **Prithak Adhikari**| 🔹 Backend developer (Express.js) <br> 🔹 PostgreSQL, REST APIs, Stripe integration   |
+---
 ## 🧑‍💻 Getting Started
 
 ### 1. Clone the repository
-
 ```bash
 git clone https://github.com/your-username/aadharcares.com.git
 cd aadharcares.com
+```
+### 2. Install dependencies
+```bash
+npm install
+# or
+yarn
+```
+### 3. Run the development server
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+### ❤ Final Note
+**AadharCares isn't just a project—it's a mission to help families feel closer and more connected, no matter the distance. Because every heartbeat matters, and every parent deserves care.**
+
+
