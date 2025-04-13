@@ -1,7 +1,7 @@
 'use client'
-import { useState } from 'react';
+import { useState ,useEffect } from 'react';
 import { FaEye, FaCheck, FaTimes } from 'react-icons/fa';
-
+import Cookies from 'js-cookie';
 const AdminApprovalTable = () => {
 
   const [users, setUsers] = useState([
@@ -14,12 +14,12 @@ const AdminApprovalTable = () => {
       role: "doctor",
       contactNumber: "+1 (555) 123-4567",
       verified: false,
-      specialization: ["Cardiology", "General Medicine"],
+      specialization: "Cardiology",
       profilePicture: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
       certifications: "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
       citizenshipPhotoFront: "https://images.pexels.com/photos/269443/pexels-photo-269443.jpeg",
       citizenshipPhotoBack: "https://images.pexels.com/photos/269443/pexels-photo-269443.jpeg",
-      status: "pending"
+      verification: "pending"
     },
     {
       id: 2,
@@ -30,28 +30,106 @@ const AdminApprovalTable = () => {
       role: "nurse",
       contactNumber: "+1 (555) 987-6543",
       verified: false,
-      specialization: ["Pediatrics", "Emergency Care"],
+      specialization: "Pediatrics",
       profilePicture: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
       certifications: "https://images.pexels.com/photos/159832/book-open-pages-literature-159832.jpeg",
       citizenshipPhotoFront: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg",
       citizenshipPhotoBack: "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg",
-      status: "pending"
+      verification: "pending"
     }
   ]);
+  const [fetchedData, setFetchedData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const token = Cookies.get('adminAccessToken');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_URL}admin/doctors`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
+        const data = await response.json();
+        console.log('data',data)
+        setUsers(data.data);
+        
+      } catch (error) {
+        console.error('Error fetching report:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [API_URL, token]);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleApprove = (id) => {
+  const handleApprove = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}admin/doctor/accept/${id}`, {
+        method: 'POST', // Specify the method as POST
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        // If you need to send a body with the request, uncomment and modify the following:
+        // body: JSON.stringify({ 
+        //   /* your data here */ 
+        // }),
+      });
+  
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      console.log('data', data);
     setUsers(users.map(user => 
-      user.id === id ? { ...user, status: "approved" } : user
-    ));
+        user.id === id ? { ...user, status: "verified" } : user
+      ));
+      
+    } catch (error) {
+      console.error('Error approving doctor:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleReject = (id) => {
-    setUsers(users.map(user => 
-      user.id === id ? { ...user, status: "rejected" } : user
-    ));
+  const handleReject = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}admin/doctor/reject/${id}`, {
+        method: 'POST', // Specify the method as POST
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        // If you need to send a body with the request, uncomment and modify the following:
+        // body: JSON.stringify({ 
+        //   /* your data here */ 
+        // }),
+      });
+  
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      console.log('data', data);
+
+      setUsers(users.map(user => 
+        user.id === id ? { ...user, status: "rejected" } : user
+      ));
+      
+    } catch (error) {
+      console.error('Error approving doctor:', error);
+    } finally {
+      setIsLoading(false);
+    }
+
   };
 
   const openModal = (user) => {
@@ -76,7 +154,7 @@ const AdminApprovalTable = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Specialization</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verification</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">View</th>
             </tr>
@@ -87,7 +165,7 @@ const AdminApprovalTable = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
-                      <img className="h-10 w-10 rounded-full" src={user.profilePicture} alt={`${user.firstName} ${user.lastName}`} />
+                      <img className="h-10 w-10  rounded-full" src={user.profilePicture} alt={`${user.firstName} ${user.lastName}`} />
                     </div>
                     <div className="ml-4">
                       <div className="text-sm font-medium text-gray-900">{user.firstName} {user.lastName}</div>
@@ -105,19 +183,17 @@ const AdminApprovalTable = () => {
                   {user.contactNumber}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex flex-wrap gap-1">
-                    {user.specialization.map((spec, index) => (
-                      <span key={index} className="px-2 py-1 text-xs bg-gray-100 rounded">
-                        {spec}
+                  <div className="flex flex-wrap gap-1">  
+                      <span className="px-2 py-1 text-xs bg-gray-100 rounded">
+                        {user.specialization||"not available"}
                       </span>
-                    ))}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${user.status === 'approved' ? 'bg-green-100 text-green-800' : 
-                      user.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                    {user.status}
+                    ${user.verification === 'verified' ? 'bg-green-100 text-green-800' : 
+                      user.verification === 'unverified' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    {user.verification}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -125,14 +201,14 @@ const AdminApprovalTable = () => {
                     <button
                       onClick={() => handleApprove(user.id)}
                       className="text-green-600 hover:text-green-900"
-                      disabled={user.status === 'approved'}
+                      disabled={user.verification === 'approved'}
                     >
                       <FaCheck />
                     </button>
                     <button
                       onClick={() => handleReject(user.id)}
                       className="text-red-600 hover:text-red-900"
-                      disabled={user.status === 'rejected'}
+                      disabled={user.verification === 'rejected'}
                     >
                       <FaTimes />
                     </button>
