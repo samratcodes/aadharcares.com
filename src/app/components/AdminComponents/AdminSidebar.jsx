@@ -20,8 +20,8 @@ const AdminSidebar = () => {
 
   const Menu = [
     { name: 'Dashboard', link: '/admindashboard', icon: <MdDashboard /> },
-    { name: 'Dr.verify', link: '/bookings', icon: <TfiAgenda /> },
-    { name: 'Transaction Verify', link: '/bidding', icon: <BsGraphUp /> },
+    { name: 'Dr.verify', link: '/doctorverify', icon: <TfiAgenda /> },
+    { name: 'Transaction Verify', link: '/transaction', icon: <BsGraphUp /> },
     { name: 'Recreational ', link: '/createrecreational', icon: <FaPlus /> },
   ];
 
