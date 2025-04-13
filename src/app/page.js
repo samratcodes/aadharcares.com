@@ -1,6 +1,8 @@
 'use client';
 import Navbar from './components/UserComponents/Navbar';
 import Footer from './components/UserComponents/Footer';
+import BecomeMedicalPartner from './components/UserComponents/BecomeMedicalPartner';
+import LandingRecreational from './components/UserComponents/LandingRecreational';
 export default function Home() {
   return (
     <div>
@@ -31,7 +33,11 @@ export default function Home() {
         </div>
       </div>
     </main>
+
     </div>
+    <BecomeMedicalPartner/>
+    <LandingRecreational/>
+
     <Footer/>
     </div>
   );
