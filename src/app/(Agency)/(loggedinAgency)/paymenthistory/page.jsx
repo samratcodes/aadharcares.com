@@ -1,11 +1,15 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CgProfile } from "react-icons/cg";
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
-const paymenthistory = () => {
+const PaymentHistory = () => {
   const [balance, setBalance] = useState(5299);
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [remarks, setRemarks] = useState("");
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const [profile, setProfile] = useState(null);
   const [transactions, setTransactions] = useState([
     {
       id: "324",
@@ -37,6 +41,33 @@ const paymenthistory = () => {
     },
   ]);
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const storedToken = Cookies.get('docsAccessToken');
+      console.log('Token from cookie:', storedToken);
+
+      if (!storedToken) {
+        console.error('No token found in cookies');
+        return;
+      }
+
+      try {
+        const res = await axios.get(`${API_URL}api/doctor/profile`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        });
+
+        console.log('Fetched data:', res.data);
+        setProfile(res.data.doctor);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, [API_URL]);
+
   const generateTransactionId = () => {
     return Math.floor(100 + Math.random() * 900).toString();
   };
@@ -66,24 +97,43 @@ const paymenthistory = () => {
   };
 
   return (
-    <div className="w-[calc(100%-64px)]">
+    <div className=" min-h-screen bg-gray-100 rounded-lg py-6">
+        <h1 className="text-4xl font-bold text-green-500 ml-8 mb-8">Payment History</h1>
       {/* current balance section */}
-      <div className="inline-block my-12 ml-16">
-        <div className="flex items-center justify-center gap-44 rounded-lg  hover:shadow-lg py-8 px-12 bg-white">
-          <div className="flex flex-col justify-center items-start gap-2">
-            <div className="flex gap-3">
-              <div className="h-10 w-10 flex-shrink-0">
-              <CgProfile className="h-10 w-10"/>
-              </div>
-              <h2 className="text-4xl font-semibold">Hello Liza,</h2>
-            </div>
-            <p className="italic text-sm text-gray-500">
-              Your available balance
-            </p>
-          </div>
-          <p className="text-5xl font-bold text-[#009C65]">Rs. {balance}</p>
-        </div>
+      <div className="my-12 px-4 md:px-16">
+  <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16 rounded-2xl shadow-lg bg-white py-10 px-8 md:px-12 max-w-6xl mx-auto transition-shadow duration-300 hover:shadow-xl">
+    
+    <div className="flex items-center gap-6">
+      <div className="h-20 w-20 rounded-full overflow-hidden  shadow-sm">
+        {profile?.profilePicture ? (
+          <img
+            src={profile.profilePicture}
+            alt="Profile"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <CgProfile className="h-full w-full text-gray-300 p-2" />
+        )}
       </div>
+      <div className="flex flex-col justify-center">
+        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
+          Hello, {profile?.firstName || ""}
+        </h2>
+        <p className="italic text-sm text-gray-500 mt-1">
+          Your available balance
+        </p>
+      </div>
+    </div>
+
+    <div className="text-center md:text-right">
+      <p className="text-4xl md:text-5xl font-bold text-[#009C65]">
+        Rs. {balance}
+      </p>
+    </div>
+
+  </div>
+</div>
+
 
       <div>
         <section className="mx-auto w-full max-w-8xl px-4 pl-16 pr-32 my-4 ">
@@ -105,34 +155,19 @@ const paymenthistory = () => {
                   <table className="min-w-full divide-y divide-gray-200 table-auto">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700"
-                        >
+                        <th className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700">
                           <span>Transaction ID</span>
                         </th>
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700"
-                        >
+                        <th className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700">
                           Amount
                         </th>
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700"
-                        >
+                        <th className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700">
                           Date
                         </th>
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700"
-                        >
+                        <th className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700">
                           Remarks
                         </th>
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700"
-                        >
+                        <th className="px-4 py-3.5 text-left text-lg font-semibold text-gray-700">
                           Status
                         </th>
                       </tr>
@@ -212,4 +247,4 @@ const paymenthistory = () => {
   );
 };
 
-export default paymenthistory;
+export default PaymentHistory;

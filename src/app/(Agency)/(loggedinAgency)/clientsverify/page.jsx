@@ -80,12 +80,11 @@ const clientsverify = () => {
     }
   }
 
-
   const pendingAppointments = appointments.filter(item => item.status === 'pending')
 
   return (
-    <div className="p-6">
-      <h1 className="text-4xl text-green-600 font-bold mb-15">Pending Appointments</h1>
+    <div className="min-h-screen rounded-lg bg-gray-100 p-6">
+      <h1 className="text-4xl font-bold text-green-500 mb-15">Pending Appointments</h1>
       <div className="grid grid-cols-6 font-semibold p-2 rounded-t-md">
         <div>S.N.</div>
         <div>Name</div>
@@ -95,7 +94,7 @@ const clientsverify = () => {
         <div>Action</div>
       </div>
       {pendingAppointments.length === 0 ? (
-        <div className="text-gray-500 p-4 border rounded-b-md">
+        <div className="text-gray-500 p-4 ">
           No pending appointments to display.
         </div>
       ) : (
