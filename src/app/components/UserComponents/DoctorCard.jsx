@@ -12,7 +12,7 @@ const DoctorCard = ({ doctor }) => {
     role,
     email,
     experience,
-    pricePerHour,
+    perHourPrice,
     rating,
     bio
   } = doctor;
@@ -52,7 +52,7 @@ const DoctorCard = ({ doctor }) => {
           <p>{experience || "Not available"}</p>
 
           <span className="font-semibold text-gray-400">Per Hour Price</span>
-          <p>{pricePerHour ? `$${pricePerHour}` : "Not available"}</p>
+          <p>{perHourPrice ? `$${perHourPrice}` : "Not available"}</p>
         </div>
 
         <div className="flex items-center mt-3">

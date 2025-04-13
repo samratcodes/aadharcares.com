@@ -47,8 +47,11 @@ const Page = ({ params }) => {
 
   const handleBookAppointment = async (e) => {
     e.preventDefault();
-    console.log(fetchedData);
-    const response = await axios.post(`${API_URL}api/user/appointment/checkout-session`, {doctorId: fetchedData.id}, {
+    const appointmentData = {
+      ...formData,
+      doctorId: id, // Include the doctor ID from params
+    };
+    const response = await axios.post(`${API_URL}api/user/appointment/checkout-session`, JSON.stringify(appointmentData), {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
