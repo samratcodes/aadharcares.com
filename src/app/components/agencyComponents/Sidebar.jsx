@@ -32,7 +32,8 @@ const Sidebar = () => {
   ];
 
   const handleLogout = () => {
-    // logic here
+    // localStorage.removeItem('token');
+    router.push('/');
   };
 
   const renderLink = (item, idx) => (

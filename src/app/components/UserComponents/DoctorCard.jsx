@@ -8,8 +8,8 @@ const DoctorCard = ({ doctor }) => {
     id,
     firstName,
     lastName,
+    profilePicture,
     role,
-    image,
     email,
     experience,
     pricePerHour,
@@ -22,7 +22,7 @@ const DoctorCard = ({ doctor }) => {
         <Link href={`/bookings/${id}`} className="w-full h-full">
       <div className="w-full h-72 relative">
         <Image
-          src={image || "https://via.placeholder.com/400x300?text=No+Image"}
+          src={profilePicture || "https://via.placeholder.com/400x300?text=No+Image"}
           alt="Profile"
           fill
           className="object-cover"

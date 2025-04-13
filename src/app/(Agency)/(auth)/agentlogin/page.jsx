@@ -8,8 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
 
-
-const agencylogin = () => {
+const agentlogin = () => {
   const router = useRouter();
   const [error, setError] = useState('');
   const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -42,7 +41,6 @@ const agencylogin = () => {
         router.push('/dashboard'); // redirect on success
         console.log(data)
         Cookies.set('docsAccessToken', data.accessToken, { expires: 7 });
-        // router.push('/dashboard');
       } else {
         setError(data.message || 'Invalid credentials.');
       }
@@ -67,6 +65,17 @@ const agencylogin = () => {
 
   return (
     <div className="flex items-center justify-center w-full bg-gray-50 h-screen">
+      <div className="flex items-center absolute top-5 left-5 bg-transparent">
+        <Link href="/">
+          <Image 
+            src="/logo.png" 
+            alt="Logo" 
+            width={50} 
+            height={50} 
+            className="cursor-pointer rounded-full" 
+          />
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-screen-xl h-full">
         
         {/* Left: Login Form */}
@@ -152,7 +161,7 @@ const agencylogin = () => {
             <div className="text-center">
               <span className="text-base font-normal">
                 Don’t Have An Account?{' '}
-                <Link href="/agencySignIn" className="text-blue-800">
+                <Link href="/agentsignup" className="text-blue-800">
                   Create Account
                 </Link>
               </span>
@@ -177,4 +186,4 @@ const agencylogin = () => {
   );
 };
 
-export default agencylogin;
+export default agentlogin;
