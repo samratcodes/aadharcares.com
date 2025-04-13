@@ -21,7 +21,7 @@ const SendReport = () => {
             Authorization: `Bearer ${storedToken}`,
           },
         })
-
+        console.log('Fetched accepted appointments:', res.data.data)
         setFromBackend(res.data.data)
       } catch (error) {
         console.error('Error fetching profile:', error)
@@ -107,7 +107,6 @@ const SendReport = () => {
     try {
       console.log('Submitting vitals:', payload.vitalReports[0])
       await axios.post(`${API_URL}api/doctor/vitalreport`, payload.vitalReports[0], {
-        console.log('Submitting vitals:', payload.vitalReports[0])        
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },

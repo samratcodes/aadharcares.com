@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
+import axios from 'axios';
 
 const Page = ({ params }) => {
   const { id } = React.use(params);
@@ -29,6 +30,7 @@ const Page = ({ params }) => {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         setFetchedData(data.data || {});
+        console.log(token);
       } catch (error) {
         console.error('Error fetching report:', error);
       } finally {
@@ -42,6 +44,20 @@ const Page = ({ params }) => {
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const handleBookAppointment = async (e) => {
+    e.preventDefault();
+    console.log(fetchedData);
+    const response = await axios.post(`${API_URL}api/user/appointment/checkout-session`, {doctorId: fetchedData.id}, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Response from booking:", response.data);
+    window.location.href = response.data.url;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,7 +113,7 @@ const Page = ({ params }) => {
         <div className="w-40 h-40 relative rounded-full overflow-hidden border-4 border-green-500 shadow-md">
           <Image
             src={
-              fetchedData.image ||
+              fetchedData.profilePicture ||
               'https://images.pexels.com/photos/31563478/pexels-photo-31563478/free-photo-of-man-relaxing-on-rooftop-with-ocean-view-in-vietnam.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
             }
             alt="Profile"
@@ -136,7 +152,7 @@ const Page = ({ params }) => {
       {/* Booking Form */}
       <div className="mt-10">
         <h3 className="text-xl font-semibold text-green-600 mb-4">Book Appointment</h3>
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleBookAppointment} className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
             <textarea

@@ -147,7 +147,7 @@ const agentsignup = () => {
         const data = await response.json();
     
         if (response.ok) {
-          router.push('/dashboard'); // redirect on success
+          router.push('/agencylogin'); // redirect on success
         } else {
           setError(data.message || 'Signup failed.');
         }
@@ -187,6 +187,17 @@ const agentsignup = () => {
 
   return (
     <div className="flex items-center justify-center w-full bg-gray-50 h-full">
+      <div className="flex items-center absolute top-5 left-5 bg-transparent">
+        <Link href="/">
+          <Image 
+            src="/logo.png" 
+            alt="Logo" 
+            width={50} 
+            height={50} 
+            className="cursor-pointer rounded-full" 
+          />
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-screen-xl h-full">
         <div className="flex flex-col justify-center px-6 md:px-10 pb-8 space-y-6">
           <div className="space-y-8">
@@ -520,7 +531,8 @@ const agentsignup = () => {
             <div className="text-center">
               <span className="text-base font-normal">
                 Already have an account?{' '}
-                <Link href="/login" className="text-blue-800">
+                <Link href="/agencylogin
+                " className="text-blue-800">
                   Login
                 </Link>
               </span>
