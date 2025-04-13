@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 
-const ClientsVerify = () => {
+const clientsverify = () => {
   const [appointments, setAppointments] = useState([])
   const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -124,4 +124,4 @@ const ClientsVerify = () => {
   )
 }
 
-export default ClientsVerify
+export default clientsverify

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 
-const Payment = () => {
+const Paymenthistory = () => {
   const [balance, setBalance] = useState(5299);
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [remarks, setRemarks] = useState("");
@@ -212,4 +212,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default Paymenthistory;

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-const DoctorProfile = () => {
+const docsprofile = () => {
   const [profile, setProfile] = useState(null)
   const API_URL = process.env.NEXT_PUBLIC_API_URL
   
@@ -109,4 +109,5 @@ const DoctorProfile = () => {
   )
 }
 
-export default DoctorProfile
+export default docsprofile
+

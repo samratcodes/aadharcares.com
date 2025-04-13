@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Image from 'next/image';
 
-const AgentSignup = () => {
+const agentsignup = () => {
   const router = useRouter();
   const API_URL = process.env.NEXT_PUBLIC_API_URL
   const [signingUp, setSigningUp] = useState(false);
@@ -147,7 +147,7 @@ const AgentSignup = () => {
         const data = await response.json();
     
         if (response.ok) {
-          router.push('/docsProfile'); // redirect on success
+          router.push('/dashboard'); // redirect on success
         } else {
           setError(data.message || 'Signup failed.');
         }
@@ -543,4 +543,4 @@ const AgentSignup = () => {
   );
 };
 
-export default AgentSignup;
+export default agentsignup;

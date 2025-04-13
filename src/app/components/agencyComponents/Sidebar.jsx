@@ -19,10 +19,10 @@ const Sidebar = () => {
 
   const Menu = [
     { name: 'Dashboard', link: '/dashboard', icon: <MdDashboard /> },
-    { name: 'Verify Clients', link: '/clientsVerify', icon: <FaUserCheck /> },
-    { name: 'Profile', link: '/docsProfile', icon: <FaUserCircle /> },
-    { name: 'Payment History', link: '/paymentHistory', icon: <FaMoneyCheckAlt /> },
-    { name: 'Reports', link: '/sendReport', icon: <FaFileAlt /> },
+    { name: 'Verify Clients', link: '/clientsverify', icon: <FaUserCheck /> },
+    { name: 'Profile', link: '/docsprofile', icon: <FaUserCircle /> },
+    { name: 'Payment History', link: '/paymenthistory', icon: <FaMoneyCheckAlt /> },
+    { name: 'Reports', link: '/sendreport', icon: <FaFileAlt /> },
   ];
 
   const Others = [
