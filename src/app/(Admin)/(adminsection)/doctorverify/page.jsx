@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FaEye, FaCheck, FaTimes } from 'react-icons/fa';
 
 const AdminApprovalTable = () => {
-  // Sample data - replace with your actual data
+
   const [users, setUsers] = useState([
     {
       id: 1,

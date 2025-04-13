@@ -39,7 +39,7 @@ const Login = () => {
 
       if (response.ok) {
         Cookies.set('adminAccessToken', data.accessToken, { expires: 7 });
-        router.push('/admin/dashboard'); // redirect to admin dashboard
+        router.push('/admindashboard'); // redirect to admin dashboard
       } else {
         setError(data.message || 'Invalid credentials.');
       }
@@ -123,13 +123,6 @@ const Login = () => {
                   </div>
 
                   {error && <p className="text-red-600 text-sm">{error}</p>}
-
-                  <div className="text-right">
-                    <span className="text-sm text-indigo-600 cursor-pointer hover:underline">
-                      Forgot Password?
-                    </span>
-                  </div>
-
                   <button
                     type="submit"
                     className="w-full px-4 py-2 font-semibold text-white bg-green-600 hover:bg-green-700 rounded-md"

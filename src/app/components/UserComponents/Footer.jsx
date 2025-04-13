@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
-import { IoLogoInstagram } from "react-icons/io5";
+import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter, IoLogoYoutube } from "react-icons/io5";
 const Footer = () => {
 
   return (
@@ -19,8 +19,8 @@ const Footer = () => {
             className="h-18 w-auto"
           />
           <div className="mt-4 text-center">
-            <p className="text-sm text-gray-300">Kathmandu, Nepal</p>
-            <p className="text-sm text-gray-300">travories@gmail.com</p>
+            <p className="text-sm text-gray-300">Chitwan, Nepal</p>
+            <p className="text-sm text-gray-300">aadhar@gmail.com</p>
           </div>
           {/* Social Media Icons */}
           <div className="flex gap-4 mt-4">
@@ -28,13 +28,13 @@ const Footer = () => {
              <IoLogoInstagram className="text-2xl text-gray-300 hover:text-white transition duration-200" />
             </Link>
             <Link href="#" aria-label="Facebook">
-              
+              <IoLogoFacebook className="text-2xl text-gray-300 hover:text-white transition duration-200" />
             </Link>
             <Link href="#" aria-label="Twitter">
-            
+            <IoLogoTwitter className="text-2xl text-gray-300 hover:text-white transition duration-200" />
             </Link>
             <Link href="#" aria-label="YouTube">
-             
+             <IoLogoYoutube className="text-2xl text-gray-300 hover:text-white transition duration-200" />
             </Link>
           </div>
         </div>
@@ -89,13 +89,13 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Partners</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/touristpackage" className="text-gray-300 ">
-                  Tourist Package
+                <Link href="/agencylogin" className="text-gray-300 ">
+                  Medical Partners
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-300 ">
-                  Trip Advisor
+                <Link href="/adminlogin" className="text-gray-300 ">
+                  Admin
                 </Link>
               </li>
               <li>
@@ -111,7 +111,7 @@ const Footer = () => {
 
       {/* Bottom Section */}
       <div className="text-center text-sm text-gray-400">
-        © 2024 Travories. All rights reserved.
+        © 2025 Aadhar. All rights reserved.
       </div>
     </footer>
   );
